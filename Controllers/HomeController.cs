@@ -15,6 +15,48 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        ViewBag.salaActual = HttpContext.Session.GetInt32("SalaActual");
+        return View();
+    }
+
+    public IActionResult Minijuego1()
+    {
+        
+        return View();
+    }
+
+    public IActionResult Minijuego2()
+    {
+        return View();
+    }
+
+    public IActionResult Minijuego3()
+    {
+        return View();
+    }
+
+    publicIActionResult Tutorial()
+    {
+        
+            if (salaActual == 2)
+            {
+                return RedirectToAction("Minijuego2");
+            }
+            else if (salaActual == 3)
+            {
+                return RedirectToAction("Minijuego3");
+            }
+        return View();
+    }
+
+    public IActionResult Login()
+    {
+        HttpContext.Session.SetInt32("SalaActual", idSala);
+        return View();
+    }
+
+    public IActionResult Victoria()
+    {
         return View();
     }
 
