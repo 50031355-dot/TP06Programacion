@@ -1,14 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio del Juego";
 }
 
-
-//boton de inicio de partida que lleve ala vista de Minijuego1 si estálogueado, sino que lleve a la vista de login
-@if (User.Identity.IsAuthenticated)
-{
-    <a href="@Url.Action("Tutorial", "Home")" class="btn btn-primary">Empezar Juego</a>
-}
-else
-{
-    <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Iniciar Sesion</a>
-}
+<div class="container text-center mt-5">
+    <h1>Escape Room</h1>
+    
+    <img src="https://via.placeholder.com/400x400?text=Juego+de+Escape+Room" alt="Juego de Escape Room" class="img-fluid mb-4">
+    
+    <p class="lead mb-4">Resuelve acertijos, descubre pistas y escapa antes de que se acabe el tiempo.</p>
+    
+    <a href="@Url.Action("Tutorial", "Home")" class="btn btn-primary btn-lg">Comenzar</a>
+</div>

@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow" style="width: 100%; max-width: 400px;">
+        <div class="card-body p-5">
+            <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <form method="post" action="/Home/Login">
+                <div class="mb-3">
+                    <label for="mail" class="form-label">Email:</label>
+                    <input type="email" class="form-control" id="mail" name="mail" required placeholder="tu@email.com">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input type="password" class="form-control" id="password" name="password" required placeholder="•••••••">
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mb-3">Iniciar Sesión</button>
+            </form>
+
+            <div class="text-center">
+                <p class="mb-0">¿No tienes cuenta? <a href="#">Registrarse</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+

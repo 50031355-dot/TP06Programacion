@@ -1,28 +1,41 @@
 using Microsoft.Data.SqlClient;
 using Dapper;
 
-private string _connectionString = "Server=localhost;Database=tp06;Integrated Security=True;TrustServerCertificate=True;";
+namespace tp06.Models;
 
-//Haceme unmetodo que cree un usuario en la base de datos con los parametros delaclase Usuarios.cs. 
-public void CrearUsuario(Usuarios usuario)
+public class BD
 {
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    private string _connectionString = "Server=localhost;Database=tp06;Integrated Security=True;TrustServerCertificate=True;";
+
+    // Autenticar usuario
+    public Usuarios AutenticarUsuario(string mail, string password)
     {
-        string query = "INSERT INTO Usuarios (mail, nombre, idPartida, idSala) VALUES (@mail, @nombre, @idPartida, @idSala)";
-        connection.Execute(query, usuario);
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "SELECT ID, mail, nombre, password, idPartida FROM Usuarios WHERE mail = @mail AND password = @password";
+            return connection.QuerySingleOrDefault<Usuarios>(query, new { mail, password });
+        }
     }
-}
 
-//
-
-//Haceme un metodoque devuelva el atributo salaActual de la partida que tenga el idPartida del Usuario.
-public int ObtenerSalaActual(Usuarios usuario)
-{
-    int idPartida = usuario.idPartida;
-    using (SqlConnection connection = new SqlConnection(_connectionString))
+    // Crear usuario en la base de datos
+    public void CrearUsuario(Usuarios usuario)
     {
-        string query = "SELECT salaActual FROM Partidas WHERE ID = @idPartida";
-        return connection.QuerySingleOrDefault<int>(query, new { idPartida });
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "INSERT INTO Usuarios (mail, nombre, password, idPartida) VALUES (@mail, @nombre, @password, @idPartida)";
+            connection.Execute(query, usuario);
+        }
+    }
+
+    // Obtener sala actual de la partida del usuario
+    public int ObtenerSalaActual(Usuarios usuario)
+    {
+        int idPartida = usuario.idPartida;
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "SELECT salaActual FROM Partidas WHERE ID = @idPartida";
+            return connection.QuerySingleOrDefault<int>(query, new { idPartida });
+        }
     }
 }
 

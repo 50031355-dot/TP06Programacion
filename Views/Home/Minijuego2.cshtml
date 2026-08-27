@@ -1,0 +1,122 @@
+@{
+    ViewData["Title"] = "Minijuego 2 - Adivina la Palabra";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Minijuego 2: Adivina la Palabra</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card p-4">
+                <div class="text-center mb-4">
+                    <p class="mb-2">Intentos restantes: <span id="intentosRestantes" class="fw-bold">6</span></p>
+                </div>
+
+                <div id="mensaje" class="alert d-none mb-3" role="alert"></div>
+
+                <!-- Cuadrícula de intentos 6x5 -->
+                <div class="cuadricula mb-4">
+                    <div class="fila">
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                    </div>
+                    <div class="fila">
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                    </div>
+                    <div class="fila">
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                    </div>
+                    <div class="fila">
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                    </div>
+                    <div class="fila">
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                    </div>
+                    <div class="fila">
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                        <div class="celda"></div>
+                    </div>
+                </div>
+
+                <div class="text-center mb-4">
+                    <p class="mb-2">Palabra actual: <span id="palabraActual" class="fw-bold">_ _ _ _ _</span></p>
+                    <button id="borrar" class="btn btn-sm btn-secondary me-2">← Borrar</button>
+                    <button id="confirmar" class="btn btn-sm btn-success">Confirmar</button>
+                </div>
+
+                <!-- Teclado en pantalla -->
+                <div class="teclado">
+                    <div class="fila-teclado">
+                        <button class="tecla" data-letra="Q">Q</button>
+                        <button class="tecla" data-letra="W">W</button>
+                        <button class="tecla" data-letra="E">E</button>
+                        <button class="tecla" data-letra="R">R</button>
+                        <button class="tecla" data-letra="T">T</button>
+                        <button class="tecla" data-letra="Y">Y</button>
+                        <button class="tecla" data-letra="U">U</button>
+                        <button class="tecla" data-letra="I">I</button>
+                        <button class="tecla" data-letra="O">O</button>
+                        <button class="tecla" data-letra="P">P</button>
+                    </div>
+                    <div class="fila-teclado">
+                        <button class="tecla" data-letra="A">A</button>
+                        <button class="tecla" data-letra="S">S</button>
+                        <button class="tecla" data-letra="D">D</button>
+                        <button class="tecla" data-letra="F">F</button>
+                        <button class="tecla" data-letra="G">G</button>
+                        <button class="tecla" data-letra="H">H</button>
+                        <button class="tecla" data-letra="J">J</button>
+                        <button class="tecla" data-letra="K">K</button>
+                        <button class="tecla" data-letra="L">L</button>
+                    </div>
+                    <div class="fila-teclado">
+                        <button class="tecla" data-letra="Z">Z</button>
+                        <button class="tecla" data-letra="X">X</button>
+                        <button class="tecla" data-letra="C">C</button>
+                        <button class="tecla" data-letra="V">V</button>
+                        <button class="tecla" data-letra="B">B</button>
+                        <button class="tecla" data-letra="N">N</button>
+                        <button class="tecla" data-letra="M">M</button>
+                    </div>
+                </div>
+
+                <!-- Resultado final -->
+                <div id="resultadoDiv" class="alert alert-success d-none mt-4">
+                    <h5>¡Ganaste!</h5>
+                    <p>Has adivinado la palabra correctamente.</p>
+                    <p class="mb-0">Tu código es: <span id="codigoVictoria" class="fw-bold">ABC-DEF</span></p>
+                    <a href="@Url.Action("Minijuego3", "Home")" class="btn btn-primary mt-3">Siguiente Minijuego</a>
+                </div>
+
+                <div id="derrrotaDiv" class="alert alert-danger d-none mt-4">
+                    <h5>¡Perdiste!</h5>
+                    <p>No pudiste adivinar la palabra en 6 intentos.</p>
+                    <p class="mb-0">La palabra era: <span id="palabraSecreta" class="fw-bold">PLATA</span></p>
+                    <button id="reiniciar" class="btn btn-warning mt-3">Reintentar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

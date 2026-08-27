@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Minijuego 1 - Secuencia";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Minijuego 1: Conecta la Secuencia</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4">
+                <p class="text-center mb-4 fs-5">Presiona los botones en el orden correcto: <strong>1 → 3 → 5 → 2 → 4</strong></p>
+                
+                <div id="mensaje" class="alert d-none mb-3" role="alert"></div>
+                
+                <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+                    <button class="boton" data-numero="1">1</button>
+                    <button class="boton" data-numero="2">2</button>
+                    <button class="boton" data-numero="3">3</button>
+                    <button class="boton" data-numero="4">4</button>
+                    <button class="boton" data-numero="5">5</button>
+                </div>
+                
+                <div class="mb-4">
+                    <p class="text-center">Tu secuencia: <span id="miSecuencia" class="fw-bold">-</span></p>
+                    <div class="progress">
+                        <div id="progreso" class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button id="reiniciar" class="btn btn-warning">Reiniciar</button>
+                </div>
+                
+                <div id="codigoDiv" class="alert alert-success d-none mt-4">
+                    <h5>¡Felicidades!</h5>
+                    <p>Has completado la secuencia correctamente.</p>
+                    <p class="mb-0">Tu código es: <span id="codigo" class="fw-bold fs-4">CTRL-1337</span></p>
+                    <a href="@Url.Action("Minijuego2", "Home")" class="btn btn-primary mt-3">Siguiente Minijuego</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
