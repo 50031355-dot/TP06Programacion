@@ -7,14 +7,12 @@ namespace tp06.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly BD _bd;
+    private readonly BD BD = new BD();  // Solo esto
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        _bd = new BD();
     }
-
     public IActionResult Index()
     {
         string emailSession = HttpContext.Session.GetString("UsuarioEmail");
@@ -38,7 +36,7 @@ public class HomeController : Controller
 
     public IActionResult Minijuego2()
     {
-                string emailSession = HttpContext.Session.GetString("UsuarioEmail");
+        string emailSession = HttpContext.Session.GetString("UsuarioEmail");
         if (string.IsNullOrEmpty(emailSession))
         {
             return RedirectToAction("Login");
@@ -49,8 +47,8 @@ public class HomeController : Controller
 
     public IActionResult Minijuego3()
     {
-                string emailSession = HttpContext.Session.GetString("UsuarioEmail");
-        if (string.IsNullOrEmpty(emailSession))
+        Usuarios usuario = BD.ObtenerUsuarioPorEmail(HttpContext.Session.GetString("UsuarioEmail"));
+        if (usuario == null)
         {
             return RedirectToAction("Login");
         }
@@ -86,7 +84,7 @@ public class HomeController : Controller
             return View();
         }
 
-        var usuario = _bd.AutenticarUsuario(mail, password);
+        Usuarios usuario = BD.AutenticarUsuario(mail, password);
         
         if (usuario != null)
         {
@@ -95,7 +93,7 @@ public class HomeController : Controller
             HttpContext.Session.SetString("UsuarioEmail", usuario.mail);
             HttpContext.Session.SetString("UsuarioNombre", usuario.nombre);
             HttpContext.Session.SetInt32("UsuarioPartida", usuario.idPartida);
-            HttpContext.Session.SetInt32("SalaActual", _bd.ObtenerSalaActual(usuario));
+            HttpContext.Session.SetInt32("SalaActual", BD.ObtenerSalaActual(usuario));
             
             return RedirectToAction("Index");
         }
