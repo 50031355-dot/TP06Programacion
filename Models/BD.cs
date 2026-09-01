@@ -12,8 +12,28 @@ public class BD
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            string query = "SELECT ID, mail, nombre, password, idPartida FROM Usuarios WHERE mail = @mail AND password = @password";
+            string query = "SELECT ID, mail, nombre, contrasena, idPartida FROM Usuarios WHERE mail = @mail AND contrasena = @password";
             return connection.QuerySingleOrDefault<Usuarios>(query, new { mail, password });
+        }
+    }
+
+    //Actualiza la sala actual de la partida del usuario
+    public void ActualizarSalaActual(int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "UPDATE Partidas SET salaActual = salaActual+1 WHERE ID = @idUsuario";
+            connection.Execute(query, new { idUsuario });
+        }
+    }
+
+    //Una función que devuelve la respuesta correcta para una sala específica
+    public int ObtenerRespuestaSala(int idSala)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "SELECT clave FROM Salas WHERE ID = @idSala";
+            return connection.QuerySingleOrDefault<int>(query, new { idSala });
         }
     }
 

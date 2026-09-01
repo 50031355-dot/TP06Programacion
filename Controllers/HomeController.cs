@@ -20,10 +20,68 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
-        string salaActual = HttpContext.Session.GetString("SalaActual");
-        return RedirectToAction(salaActual);
+        int salaActual = int.Parse(HttpContext.Session.GetString("SalaActual"));
+        //hace un switch para redirigir a la sala correspondiente
+        switch (salaActual)
+        {
+            case 1:
+                return RedirectToAction("Minijuego1");
+            case 2:
+                return RedirectToAction("Minijuego2");
+            case 3:
+                return RedirectToAction("Minijuego3");
+            default:
+                return RedirectToAction("Index");
+        }
     }
 
+
+
+[HttpPost]
+public IActionResult VerificarMinijuego(string codigo)
+{
+    int codigoIngresado = int.Parse(codigo);
+    int idSala = int.Parse(HttpContext.Session.GetString("SalaActual"));
+    int respuesta = BD.ObtenerRespuestaSala(idSala);
+    int salaActual = int.Parse(HttpContext.Session.GetString("SalaActual"));
+    if (codigoIngresado == respuesta)
+    {
+        int idPartida = int.Parse(HttpContext.Session.GetString("UsuarioPartida"));
+        BD.ActualizarSalaActual(idPartida);
+
+        int nuevaSala = idSala + 1;
+        HttpContext.Session.SetString("SalaActual", nuevaSala.ToString());
+
+        switch (nuevaSala)
+        {
+            case 2:
+                return View("Minijuego2");
+            case 3:
+                return View("Minijuego3");
+            default:
+                return View("Victoria");
+        }
+    }
+    else
+    {
+        ViewBag.Error = "Código incorrecto. Intenta nuevamente.";
+        switch (salaActual)
+        {
+            case 1:
+                return View("Minijuego1");
+            case 2:
+                return View("Minijuego2");
+            case 3:
+                return View("Minijuego3");
+            default:
+                return View("Index");
+        }
+    }
+}
+
+
+
+    
     public IActionResult Minijuego1()
     {
         string emailSession = HttpContext.Session.GetString("UsuarioEmail");
@@ -58,15 +116,6 @@ public class HomeController : Controller
 
     public IActionResult Tutorial()
     {
-        int? salaActual = HttpContext.Session.GetInt32("SalaActual");
-        if (salaActual == 2)
-        {
-            return RedirectToAction("Minijuego2");
-        }
-        else if (salaActual == 3)
-        {
-            return RedirectToAction("Minijuego3");
-        }
         return View();
     }
 
@@ -76,24 +125,24 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public IActionResult Login(string mail, string password)
+    public IActionResult Login(string mail, string contrasena)
     {
-        if (mail=="" || password=="")
+        if (mail=="" || contrasena=="")
         {
             ViewBag.Error = "Por favor completa todos los campos";
             return View();
         }
 
-        Usuarios usuario = BD.AutenticarUsuario(mail, password);
+        Usuarios usuario = BD.AutenticarUsuario(mail, contrasena);
         
         if (usuario != null)
         {
             // Guardar datos en sesión
-            HttpContext.Session.SetInt32("UsuarioID", usuario.ID);
+            HttpContext.Session.SetString("UsuarioID", usuario.ID.ToString());
             HttpContext.Session.SetString("UsuarioEmail", usuario.mail);
             HttpContext.Session.SetString("UsuarioNombre", usuario.nombre);
-            HttpContext.Session.SetInt32("UsuarioPartida", usuario.idPartida);
-            HttpContext.Session.SetInt32("SalaActual", BD.ObtenerSalaActual(usuario));
+            HttpContext.Session.SetString("UsuarioPartida", usuario.idPartida.ToString());
+            HttpContext.Session.SetString("SalaActual", BD.ObtenerSalaActual(usuario).ToString());
             
             return RedirectToAction("Index");
         }
