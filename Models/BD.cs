@@ -76,4 +76,15 @@ public class BD
             }
         }
     }
+
+    /*public string ObtenerPistaSala(int salaActual, int num)
+    {
+        using (SqlConnection = new SqlConnection(_connectionString))
+        {
+            string query = "SELECT contenido FROM Pistas WHERE idSala=@salaActual AND num=@num";
+            string contenido = connection.QuerySingleOrDefault<string>(query, new {salaActual, num});
+            return contenido;
+        }   
+    }
+*/
 }
