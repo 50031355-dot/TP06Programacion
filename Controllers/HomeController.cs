@@ -7,12 +7,43 @@ namespace tp06.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly BD BD = new BD();  // Solo esto
+    private readonly BD BD = new BD();
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
     }
+
+    private int ObtenerSesionInt(string clave)
+    {
+        string valor = HttpContext.Session.GetString(clave);
+        if (string.IsNullOrEmpty(valor))
+        {
+            return 0;
+        }
+
+        return int.Parse(valor);
+    }
+
+    public int ObtenerPistasUsadas(int salaActual)
+    {
+        string key = "PistasSala" + salaActual;
+        string valor = HttpContext.Session.GetString(key);
+
+        if (string.IsNullOrEmpty(valor))
+        {
+            return 0;
+        }
+        int cantidad;
+        return int.TryParse(valor, out cantidad) ? cantidad : 0;
+    }
+
+    private void GuardarPistasUsadas(int salaActual, int cantidad)
+    {
+        string key = "PistasSala" + salaActual;
+        HttpContext.Session.SetString(key, cantidad.ToString());
+    }
+
     public IActionResult Index()
     {
         string emailSession = HttpContext.Session.GetString("UsuarioEmail");
@@ -20,8 +51,13 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
-        int salaActual = int.Parse(HttpContext.Session.GetString("SalaActual"));
-        //hace un switch para redirigir a la sala correspondiente
+
+        int salaActual = ObtenerSesionInt("SalaActual");
+        if (salaActual == 0)
+        {
+            salaActual = 1;
+        }
+
         switch (salaActual)
         {
             case 1:
@@ -35,53 +71,94 @@ public class HomeController : Controller
         }
     }
 
-
-
-[HttpPost]
-public IActionResult VerificarMinijuego(string codigo)
-{
-    int codigoIngresado = int.Parse(codigo);
-    int idSala = int.Parse(HttpContext.Session.GetString("SalaActual"));
-    int respuesta = BD.ObtenerRespuestaSala(idSala);
-    int salaActual = int.Parse(HttpContext.Session.GetString("SalaActual"));
-    if (codigoIngresado == respuesta)
+    [HttpPost]
+    public IActionResult PedirPista()
     {
-        int idPartida = int.Parse(HttpContext.Session.GetString("UsuarioPartida"));
-        BD.ActualizarSalaActual(idPartida);
-
-        int nuevaSala = idSala + 1;
-        HttpContext.Session.SetString("SalaActual", nuevaSala.ToString());
-
-        switch (nuevaSala)
+        string emailSession = HttpContext.Session.GetString("UsuarioEmail");
+        if (string.IsNullOrEmpty(emailSession))
         {
-            case 2:
-                return View("Minijuego2");
-            case 3:
-                return View("Minijuego3");
-            default:
-                return View("Victoria");
+            return RedirectToAction("Login");
+        }
+
+        int salaActual = ObtenerSesionInt("SalaActual");
+        if (salaActual == 0)
+        {
+            salaActual = 1;
+        }
+
+        int pistasUsadas = ObtenerPistasUsadas(salaActual);
+
+        if (pistasUsadas >= 3)
+        {
+            ViewBag.ErrorPista = "Ya pediste el máximo de 3 pistas para esta sala.";
+            ViewBag.PistasUsadas = pistasUsadas;
+            return View("Minijuego" + salaActual);
+        }
+
+        int siguienteNumero = pistasUsadas + 1;
+        string pista = BD.ObtenerPistaSala(salaActual, siguienteNumero);
+
+        GuardarPistasUsadas(salaActual, siguienteNumero);
+        ViewBag.Pista = pista;
+        ViewBag.PistaNumero = siguienteNumero;
+        ViewBag.PistasUsadas = siguienteNumero;
+
+        return View("Minijuego" + salaActual);
+    }
+
+    [HttpPost]
+    public IActionResult VerificarMinijuego(string codigo)
+    {
+        int codigoIngresado = 0;
+        if (!string.IsNullOrEmpty(codigo))
+        {
+            codigoIngresado = int.Parse(codigo);
+        }
+
+        int idSala = ObtenerSesionInt("SalaActual");
+        if (idSala == 0)
+        {
+            idSala = 1;
+        }
+
+        int respuesta = BD.ObtenerRespuestaSala(idSala);
+        int salaActual = idSala;
+
+        if (codigoIngresado == respuesta)
+        {
+            int idPartida = ObtenerSesionInt("UsuarioPartida");
+            BD.ActualizarSalaActual(idPartida);
+
+            int nuevaSala = idSala + 1;
+            HttpContext.Session.SetString("SalaActual", nuevaSala.ToString());
+
+            switch (nuevaSala)
+            {
+                case 2:
+                    return View("Minijuego2");
+                case 3:
+                    return View("Minijuego3");
+                default:
+                    return View("Victoria");
+            }
+        }
+        else
+        {
+            ViewBag.Error = "Código incorrecto. Intenta nuevamente.";
+            switch (salaActual)
+            {
+                case 1:
+                    return View("Minijuego1");
+                case 2:
+                    return View("Minijuego2");
+                case 3:
+                    return View("Minijuego3");
+                default:
+                    return View("Index");
+            }
         }
     }
-    else
-    {
-        ViewBag.Error = "Código incorrecto. Intenta nuevamente.";
-        switch (salaActual)
-        {
-            case 1:
-                return View("Minijuego1");
-            case 2:
-                return View("Minijuego2");
-            case 3:
-                return View("Minijuego3");
-            default:
-                return View("Index");
-        }
-    }
-}
 
-
-
-    
     public IActionResult Minijuego1()
     {
         string emailSession = HttpContext.Session.GetString("UsuarioEmail");
@@ -89,6 +166,14 @@ public IActionResult VerificarMinijuego(string codigo)
         {
             return RedirectToAction("Login");
         }
+
+        int salaActual = ObtenerSesionInt("SalaActual");
+        if (salaActual == 0)
+        {
+            salaActual = 1;
+        }
+
+        ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
 
@@ -100,6 +185,13 @@ public IActionResult VerificarMinijuego(string codigo)
             return RedirectToAction("Login");
         }
 
+        int salaActual = ObtenerSesionInt("SalaActual");
+        if (salaActual == 0)
+        {
+            salaActual = 1;
+        }
+
+        ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
 
@@ -111,6 +203,13 @@ public IActionResult VerificarMinijuego(string codigo)
             return RedirectToAction("Login");
         }
 
+        int salaActual = ObtenerSesionInt("SalaActual");
+        if (salaActual == 0)
+        {
+            salaActual = 1;
+        }
+
+        ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
 
@@ -125,25 +224,24 @@ public IActionResult VerificarMinijuego(string codigo)
     }
 
     [HttpPost]
-    public IActionResult Login(string mail, string contrasena)
+    public IActionResult Login(string mail)
     {
-        if (mail=="" || contrasena=="")
+        if (mail == "" )
         {
             ViewBag.Error = "Por favor completa todos los campos";
             return View();
         }
 
-        Usuarios usuario = BD.AutenticarUsuario(mail, contrasena);
-        
+        Usuarios usuario = BD.AutenticarUsuario(mail);
+
         if (usuario != null)
         {
-            // Guardar datos en sesión
             HttpContext.Session.SetString("UsuarioID", usuario.ID.ToString());
             HttpContext.Session.SetString("UsuarioEmail", usuario.mail);
             HttpContext.Session.SetString("UsuarioNombre", usuario.nombre);
             HttpContext.Session.SetString("UsuarioPartida", usuario.idPartida.ToString());
             HttpContext.Session.SetString("SalaActual", BD.ObtenerSalaActual(usuario).ToString());
-            
+
             return RedirectToAction("Index");
         }
         else

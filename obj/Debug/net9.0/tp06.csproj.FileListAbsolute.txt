@@ -139,7 +139,6 @@ C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\refint\tp06.dll
 C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\tp06.pdb
 C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\tp06.genruntimeconfig.cache
 C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\ref\tp06.dll
-C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\compressed\ipozsxa8e3-3r8b2a0bt1.gz
 C:\Users\50256921\TP06Programacion\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\50256921\TP06Programacion\bin\Debug\net9.0\appsettings.json
 C:\Users\50256921\TP06Programacion\bin\Debug\net9.0\tp06.staticwebassets.runtime.json
@@ -282,3 +281,4 @@ C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\tp06.pdb
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\tp06.genruntimeconfig.cache
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\ref\tp06.dll
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\zu306phn6j-1y16q2omow.gz
+C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\compressed\zu306phn6j-1y16q2omow.gz

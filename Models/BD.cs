@@ -8,12 +8,12 @@ public class BD
     private string _connectionString = "Server=localhost;Database=tp06;Integrated Security=True;TrustServerCertificate=True;";
 
     // Autenticar usuario
-    public Usuarios AutenticarUsuario(string mail, string password)
+    public Usuarios AutenticarUsuario(string mail)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            string query = "SELECT ID, mail, nombre, contrasena, idPartida FROM Usuarios WHERE mail = @mail AND contrasena = @password";
-            return connection.QuerySingleOrDefault<Usuarios>(query, new { mail, password });
+            string query = "SELECT ID, mail, nombre,idPartida FROM Usuarios WHERE mail = @mail";
+            return connection.QuerySingleOrDefault<Usuarios>(query, new { mail});
         }
     }
 
@@ -37,12 +37,22 @@ public class BD
         }
     }
 
+    public string ObtenerPistaSala(int salaActual, int numeroPista) //////
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            int offset = numeroPista - 1;
+            string query = "SELECT contenido FROM Pistas WHERE idSala = @salaActual ORDER BY ID OFFSET @offset ROWS FETCH NEXT 1 ROWS ONLY";
+            return connection.QuerySingleOrDefault<string>(query, new { salaActual, offset });
+        }
+    }
+
     // Crear usuario en la base de datos
     public void CrearUsuario(Usuarios usuario)
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            string query = "INSERT INTO Usuarios (mail, nombre, password, idPartida) VALUES (@mail, @nombre, @password, @idPartida)";
+            string query = "INSERT INTO Usuarios (mail, nombre, idPartida) VALUES (@mail, @nombre,@idPartida)";
             connection.Execute(query, usuario);
         }
     }
@@ -63,7 +73,7 @@ public class BD
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            string query = "SELECT ID, mail, nombre, password, idPartida FROM Usuarios WHERE mail = @email";
+            string query = "SELECT ID, mail, nombre,idPartida FROM Usuarios WHERE mail = @email";
             int count = connection.QuerySingleOrDefault<int>(query, new { email });
             if (count != 0)
             {
@@ -76,15 +86,4 @@ public class BD
             }
         }
     }
-
-    /*public string ObtenerPistaSala(int salaActual, int num)
-    {
-        using (SqlConnection = new SqlConnection(_connectionString))
-        {
-            string query = "SELECT contenido FROM Pistas WHERE idSala=@salaActual AND num=@num";
-            string contenido = connection.QuerySingleOrDefault<string>(query, new {salaActual, num});
-            return contenido;
-        }   
-    }
-*/
 }
