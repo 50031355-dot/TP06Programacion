@@ -8,6 +8,16 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly BD BD = new BD();
+    private static readonly string[] PalabrasSpiderman =
+    {
+        "PETER",
+        "MILES",
+        "ARANA",
+        "VENOM",
+        "SPIDE",
+        "TELAS",
+        "WEBER"
+    };
 
     public HomeController(ILogger<HomeController> logger)
     {
@@ -191,6 +201,8 @@ public class HomeController : Controller
             salaActual = 1;
         }
 
+        string palabraSecreta = PalabrasSpiderman[new Random().Next(PalabrasSpiderman.Length)];
+        ViewBag.PalabraSecreta = palabraSecreta;
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }

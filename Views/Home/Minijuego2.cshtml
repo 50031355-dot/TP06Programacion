@@ -25,7 +25,11 @@
         numeroPista = (int)ViewBag.PistaNumero;
     }
 
-   
+    string palabraSecreta = "PETER";
+    if (ViewBag.PalabraSecreta != null)
+    {
+        palabraSecreta = ViewBag.PalabraSecreta.ToString();
+    }
 }
 
 <div class="container mt-5">
@@ -158,9 +162,11 @@
                 <div id="derrrotaDiv" class="alert alert-danger d-none mt-4">
                     <h5>¡Perdiste!</h5>
                     <p>No pudiste adivinar la palabra en 6 intentos.</p>
-                    <p class="mb-0">La palabra era: <span id="palabraSecreta" class="fw-bold">PLATA</span></p>
+                    <p class="mb-0">La palabra era: <span id="palabraSecreta" class="fw-bold"></span></p>
                     <button id="reiniciar" class="btn btn-warning mt-3">Reintentar</button>
                 </div>
+
+                <div id="datosMinijuego2" data-palabra="@palabraSecreta" class="d-none"></div>
             </div>
         </div>
     </div>

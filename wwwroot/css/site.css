@@ -29,3 +29,155 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.cuadricula {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.fila {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.celda {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #d3d6da;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background-color: white;
+  color: #1f2937;
+  transition: all 0.2s ease;
+}
+
+.celda.correct {
+  background-color: #6aaa64;
+  border-color: #6aaa64;
+  color: white;
+}
+
+.celda.present {
+  background-color: #c9b458;
+  border-color: #c9b458;
+  color: white;
+}
+
+.celda.absent {
+  background-color: #787c7e;
+  border-color: #787c7e;
+  color: white;
+}
+
+.teclado {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.fila-teclado {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.tecla {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e9ecef;
+  font-weight: 700;
+  color: #1f2937;
+  transition: all 0.2s ease;
+}
+
+.tecla.correct {
+  background-color: #6aaa64;
+  color: white;
+}
+
+.tecla.present {
+  background-color: #c9b458;
+  color: white;
+}
+
+.tecla.absent {
+  background-color: #787c7e;
+  color: white;
+}
+
+#mensaje {
+  font-weight: 600;
+}
+
+.venom-scene {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 720px;
+  margin: 0 auto;
+  overflow: visible;
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  background: #000;
+}
+
+.venom-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: saturate(1.2) contrast(1.1);
+  background: #000;
+}
+
+.venom-button {
+  position: absolute;
+  left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.12rem;
+  font-weight: 900;
+  font-size: clamp(0.7rem, 0.9vw, 1.2rem);
+  color: rgba(255, 255, 255, 0.02);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: none;
+  opacity: 0.04;
+}
+
+.venom-button:hover,
+.venom-button:focus {
+  color: rgba(255, 255, 255, 0.12);
+  text-shadow: none;
+  opacity: 0.5;
+  transform: translateY(-50%) scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .venom-scene {
+    height: 500px;
+  }
+
+  .venom-button {
+    left: 1%;
+    top: 50%;
+    font-size: 0.7rem;
+  }
+}

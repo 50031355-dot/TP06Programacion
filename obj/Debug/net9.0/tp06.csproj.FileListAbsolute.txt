@@ -207,7 +207,6 @@ C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\scopedcss\bundle\tp06.styles.css
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\scopedcss\projectbundle\tp06.bundle.scp.css
-C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\rofytqx5zk-b9sayid5wm.gz
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\qgkjeae6pj-61n19gt1b8.gz
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\4qgs877bfp-t1cqhe9u97.gz
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\r5mkbltjgs-c2jlpeoesf.gz
@@ -280,5 +279,6 @@ C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\refint\tp06.dll
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\tp06.pdb
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\tp06.genruntimeconfig.cache
 C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\ref\tp06.dll
-C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\zu306phn6j-1y16q2omow.gz
 C:\Users\50031355\TP06Programacion\obj\Debug\net9.0\compressed\zu306phn6j-1y16q2omow.gz
+C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\zu306phn6j-vg94vp7hbw.gz
+C:\Users\50256921\TP06Programacion\obj\Debug\net9.0\compressed\rofytqx5zk-rel698di8c.gz

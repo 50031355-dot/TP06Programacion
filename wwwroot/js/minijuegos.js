@@ -82,11 +82,11 @@ document.addEventListener('DOMContentLoaded', function () {
         const derrotaDiv = document.getElementById('derrrotaDiv');
         const palabraSecretaEl = document.getElementById('palabraSecreta');
         const codigoVictoriaEl = document.getElementById('codigoVictoria');
+        const datosMinijuego2 = document.getElementById('datosMinijuego2');
 
         if (!filas.length) return;
 
-        const WORDS = ['PLATA','CASAS','ROBOT','MARCO','LIMON','SUELO','AMIGO','FIESTA'];
-        const secreto = (WORDS[Math.floor(Math.random()*WORDS.length)] || 'PLATA').toUpperCase();
+        const secreto = (datosMinijuego2?.dataset.palabra || 'PETER').toUpperCase();
         const ROWS = 6, COLS = 5;
         let filaIdx = 0;
         let colIdx = 0;
@@ -94,9 +94,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let intentosRestantes = ROWS;
 
         function actualizarPalabraActual() {
-            const current = grid[filaIdx].map(c => c || '_').join('');
+            const current = grid[filaIdx].map(c => c || '_').join(' ');
             if (palabraActualEl) palabraActualEl.textContent = current;
-            if (intentosRestantesEl) intentosRestantesEl.textContent = intentosRestantes;
+            if (intentosRestantesEl) intentosRestantesEl.textContent = String(intentosRestantes);
         }
 
         function clearMensaje(){ if(mensaje) mensaje.classList.add('d-none'); }
@@ -180,7 +180,10 @@ document.addEventListener('DOMContentLoaded', function () {
             filaIdx++;
             intentosRestantes--;
             colIdx = 0;
-            actualizarPalabraActual();
+
+            if (filaIdx < ROWS) {
+                actualizarPalabraActual();
+            }
 
             if (intentosRestantes <= 0) {
                 // derrota
