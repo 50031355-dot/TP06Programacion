@@ -63,21 +63,21 @@ public class HomeController : Controller
         }
 
         int salaActual = ObtenerSesionInt("SalaActual");
-        if (salaActual == 0)
-        {
-            salaActual = 1;
-        }
 
         switch (salaActual)
         {
+            case 0:
             case 1:
-                return RedirectToAction("Minijuego1");
             case 2:
-                return RedirectToAction("Minijuego2");
+                return RedirectToAction("Tutorial");
             case 3:
+                return RedirectToAction("Minijuego1");
+            case 4:
+                return RedirectToAction("Minijuego2");
+            case 5:
                 return RedirectToAction("Minijuego3");
             default:
-                return RedirectToAction("Index");
+                return RedirectToAction("Victoria");
         }
     }
 
@@ -91,18 +91,12 @@ public class HomeController : Controller
         }
 
         int salaActual = ObtenerSesionInt("SalaActual");
-        if (salaActual == 0)
-        {
-            salaActual = 1;
-        }
-
         int pistasUsadas = ObtenerPistasUsadas(salaActual);
 
         if (pistasUsadas >= 3)
         {
             ViewBag.ErrorPista = "Ya pediste el máximo de 3 pistas para esta sala.";
             ViewBag.PistasUsadas = pistasUsadas;
-            return View("Minijuego" + salaActual);
         }
 
         int siguienteNumero = pistasUsadas + 1;
@@ -112,8 +106,22 @@ public class HomeController : Controller
         ViewBag.Pista = pista;
         ViewBag.PistaNumero = siguienteNumero;
         ViewBag.PistasUsadas = siguienteNumero;
-
-        return View("Minijuego" + salaActual);
+        
+        switch (salaActual)
+        {
+            case 0:
+            case 1:
+            case 2:
+                return View("Tutorial");
+            case 3:
+                return View("Minijuego1");
+            case 4:
+                return View("Minijuego2");
+            case 5:
+                return View("Minijuego3");
+            default:
+                return View("Index");
+        }
     }
 
     [HttpPost]
@@ -124,32 +132,31 @@ public class HomeController : Controller
         {
             codigoIngresado = int.Parse(codigo);
         }
-
+        Console.WriteLine($"Código ingresado: {codigoIngresado}");
         int idSala = ObtenerSesionInt("SalaActual");
-        if (idSala == 0)
-        {
-            idSala = 1;
-        }
-
         int respuesta = BD.ObtenerRespuestaSala(idSala);
         int salaActual = idSala;
-
+        Console.WriteLine($"Código ingresado: {codigoIngresado}, Respuesta correcta: {respuesta}, Sala actual: {salaActual}");
         if (codigoIngresado == respuesta)
         {
             int idPartida = ObtenerSesionInt("UsuarioPartida");
             BD.ActualizarSalaActual(idPartida);
-
+            Console.WriteLine("Sala actualizada correctamente.");
             int nuevaSala = idSala + 1;
             HttpContext.Session.SetString("SalaActual", nuevaSala.ToString());
+            
+            // Reiniciar el contador de pistas para la nueva sala
+            string keyPistasNuevaSala = "PistasSala" + nuevaSala;
+            HttpContext.Session.Remove(keyPistasNuevaSala);
 
             switch (nuevaSala)
             {
-                case 2:
-                    return View("Minijuego2");
-                case 3:
-                    return View("Minijuego3");
+                case 4:
+                    return RedirectToAction("Minijuego2");
+                case 5:
+                    return RedirectToAction("Minijuego3");
                 default:
-                    return View("Victoria");
+                    return RedirectToAction("Victoria");
             }
         }
         else
@@ -157,14 +164,18 @@ public class HomeController : Controller
             ViewBag.Error = "Código incorrecto. Intenta nuevamente.";
             switch (salaActual)
             {
+                case 0:
                 case 1:
-                    return View("Minijuego1");
                 case 2:
-                    return View("Minijuego2");
+                    return RedirectToAction("Tutorial");
                 case 3:
-                    return View("Minijuego3");
+                    return RedirectToAction("Minijuego1");
+                case 4:
+                    return RedirectToAction("Minijuego2");
+                case 5:
+                    return RedirectToAction("Minijuego3");
                 default:
-                    return View("Index");
+                    return RedirectToAction("Index");
             }
         }
     }
@@ -178,11 +189,6 @@ public class HomeController : Controller
         }
 
         int salaActual = ObtenerSesionInt("SalaActual");
-        if (salaActual == 0)
-        {
-            salaActual = 1;
-        }
-
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
@@ -196,13 +202,11 @@ public class HomeController : Controller
         }
 
         int salaActual = ObtenerSesionInt("SalaActual");
-        if (salaActual == 0)
-        {
-            salaActual = 1;
-        }
+
 
         string palabraSecreta = PalabrasSpiderman[new Random().Next(PalabrasSpiderman.Length)];
         ViewBag.PalabraSecreta = palabraSecreta;
+        ViewBag.CodigoMinijuego = BD.ObtenerRespuestaSala(salaActual);
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
@@ -216,9 +220,21 @@ public class HomeController : Controller
         }
 
         int salaActual = ObtenerSesionInt("SalaActual");
-        if (salaActual == 0)
+        
+        switch (salaActual)
         {
-            salaActual = 1;
+            case 0:
+            case 1:
+            case 2:
+                return RedirectToAction("Tutorial");
+            case 3:
+                return RedirectToAction("Minijuego1");
+            case 4:
+                return RedirectToAction("Minijuego2");
+            case 5:
+                break;
+            default:
+                return RedirectToAction("Index");
         }
 
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
@@ -278,6 +294,8 @@ public class HomeController : Controller
     {
         return View();
     }
+
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

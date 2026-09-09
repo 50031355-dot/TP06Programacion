@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const miSecuencia = document.getElementById('miSecuencia');
         const progreso = document.getElementById('progreso');
         const codigoDiv = document.getElementById('codigoDiv');
+        const codigoInput = document.getElementById('codigoInput');
         const reiniciarBtn = document.getElementById('reiniciar');
 
         if (!botones || !miSecuencia) return;
@@ -48,7 +49,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Verificar completa
                     if (seleccion.join('') === objetivo.join('')) {
                         mostrarMensaje('¡Secuencia correcta! Has desbloqueado el código.', 'success');
-                        if (codigoDiv) codigoDiv.classList.remove('d-none');
+                        if (codigoDiv) {
+                            codigoDiv.classList.remove('d-none');
+                            if (codigoInput) codigoInput.value = '4817';
+                        }
                         botones.forEach(x => x.disabled = true);
                     } else {
                         mostrarMensaje('Secuencia incorrecta. Reinicia y prueba otra vez.', 'error');
@@ -62,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             seleccion = [];
             botones.forEach(x => x.disabled = false);
             if (codigoDiv) codigoDiv.classList.add('d-none');
+            if (codigoInput) codigoInput.value = '';
             ocultarMensaje();
             actualizarUI();
         });
@@ -78,15 +83,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const intentosRestantesEl = document.getElementById('intentosRestantes');
         const palabraActualEl = document.getElementById('palabraActual');
         const mensaje = document.getElementById('mensaje');
-        const resultadoDiv = document.getElementById('resultadoDiv');
+        const resultadoDiv = document.getElementById('codigoDiv');
         const derrotaDiv = document.getElementById('derrrotaDiv');
         const palabraSecretaEl = document.getElementById('palabraSecreta');
-        const codigoVictoriaEl = document.getElementById('codigoVictoria');
+        const codigoInput = document.getElementById('codigoInput');
         const datosMinijuego2 = document.getElementById('datosMinijuego2');
 
         if (!filas.length) return;
 
         const secreto = (datosMinijuego2?.dataset.palabra || 'PETER').toUpperCase();
+        const codigoMinijuego = datosMinijuego2?.dataset.codigo || '3025';
         const ROWS = 6, COLS = 5;
         let filaIdx = 0;
         let colIdx = 0;
@@ -171,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (intento === secreto) {
                 // victoria
                 if (resultadoDiv) resultadoDiv.classList.remove('d-none');
-                if (codigoVictoriaEl) codigoVictoriaEl.textContent = 'GANA-2026';
+                if (codigoInput) codigoInput.value = codigoMinijuego;
                 clearGame();
                 return;
             }

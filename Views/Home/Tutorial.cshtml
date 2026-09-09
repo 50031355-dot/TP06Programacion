@@ -1,0 +1,94 @@
+@{
+    ViewData["Title"] = "Tutorial - Escape Room";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg p-5">
+                <h1 class="text-center mb-4 text-primary">
+                    <strong>🔐 BIENVENIDO AL ESCAPE ROOM 🔐</strong>
+                </h1>
+
+                <hr class="mb-4">
+
+                <h3 class="mb-3"><strong>📋 ¿CÓMO JUGAR?</strong></h3>
+                
+                <div class="alert alert-info mb-4">
+                    <p><strong>Objetivo:</strong> Debes resolver <strong>3 minijuegos</strong> para escapar de la sala antes de que se acabe el tiempo.</p>
+                </div>
+
+                <h4 class="mt-4 mb-3"><strong>📝 INSTRUCCIONES GENERALES:</strong></h4>
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item">
+                        <strong>1. Resuelve Los Acertijos:</strong> Cada minijuego presenta un acertijo o puzzle que debes resolver para avanzar.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>2. Obtén El Código:</strong> Una vez resuelvas el acertijo, recibirás un código numérico.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>3. Ingresa El Código:</strong> Introduce el código en el campo correspondiente para verificar tu respuesta.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>4. Avanza De Sala:</strong> Si el código es correcto, pasarás al siguiente minijuego.
+                    </li>
+                </ul>
+
+                <h4 class="mt-4 mb-3"><strong>💡 SISTEMA DE PISTAS:</strong></h4>
+                <div class="alert alert-warning">
+                    <p><strong>⚠️ Tendrás un máximo de 3 pistas por sala.</strong> Úsalas sabiamente, ya que no se regeneran. Las pistas te darán información adicional para resolver el acertijo.</p>
+                </div>
+
+                <h4 class="mt-4 mb-3"><strong>🎮 LOS MINIJUEGOS:</strong></h4>
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item">
+                        <strong>Minijuego 1:</strong> Conecta la Secuencia - Presiona los botones en el orden correcto.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Minijuego 2:</strong> Deberás resolver otro acertijo para continuar.
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Minijuego 3:</strong> El acertijo final antes de escapar.
+                    </li>
+                </ul>
+
+                <div class="alert alert-success mt-4">
+                    <p><strong>✨ ¡Buena suerte! Tienes lo necesario para escapar. ¡Demuestra tu ingenio y resuelve todos los acertijos!</strong></p>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="text-center">
+                    <a href="@Url.Action("Minijuego1", "Home")" class="btn btn-success btn-lg mt-4" style="padding: 15px 50px; font-size: 1.3em; font-weight: bold;">
+                        ▶️ EMPEZAR
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+    }
+
+    .card {
+        border-radius: 15px;
+        border: 2px solid #343a40;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+
+    h1, h3, h4 {
+        color: #343a40;
+    }
+</style>

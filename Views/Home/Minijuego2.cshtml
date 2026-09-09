@@ -44,8 +44,15 @@
                     </div>
                     <form asp-action="PedirPista" method="post">
                         <button type="submit" class="btn btn-outline-info btn-sm">
-                           Pista @(ViewBag.PistasUsadas+1)
-                        </button>
+                                    @if(pistasUsadas < 3)
+                                    {
+                                        <span>💡 Pedir Pista (@(3 - pistasUsadas) restantes)</span>
+                                    }
+                                    else
+                                    {
+                                        <span>💡 No quedan pistas</span>
+                                    }
+                            </button>
                     </form>
                 </div>
 
@@ -152,11 +159,17 @@
                 </div>
 
                 <!-- Resultado final -->
-                <div id="resultadoDiv" class="alert alert-success d-none mt-4">
-                    <h5>¡Ganaste!</h5>
-                    <p>Has adivinado la palabra correctamente.</p>
-                    <p class="mb-0">Tu código es: <span id="codigoVictoria" class="fw-bold">ABC-DEF</span></p>
-                    <a href="@Url.Action("Minijuego3", "Home")" class="btn btn-primary mt-3">Siguiente Minijuego</a>
+                <div class="text-center">
+                    <button type="button" id="reiniciar" class="btn btn-warning">Reiniciar</button>
+                </div>
+                
+                <div id="codigoDiv" class="alert alert-success d-none mt-4">
+                    <h5>¡Felicidades!</h5>
+                    <p>Has completado la secuencia correctamente.</p>
+                    <form action="@Url.Action("VerificarMinijuego", "Home")" method="post">
+                        <input type="hidden" name="codigo" id="codigoInput" value="">
+                        <button type="submit" class="btn btn-primary mt-3">Siguiente Minijuego</button>
+                    </form>
                 </div>
 
                 <div id="derrrotaDiv" class="alert alert-danger d-none mt-4">
@@ -166,7 +179,7 @@
                     <button id="reiniciar" class="btn btn-warning mt-3">Reintentar</button>
                 </div>
 
-                <div id="datosMinijuego2" data-palabra="@palabraSecreta" class="d-none"></div>
+                <div id="datosMinijuego2" data-palabra="@palabraSecreta" data-codigo="@ViewBag.CodigoMinijuego" class="d-none"></div>
             </div>
         </div>
     </div>
