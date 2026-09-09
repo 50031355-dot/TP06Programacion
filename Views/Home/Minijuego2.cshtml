@@ -32,18 +32,22 @@
     }
 }
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Minijuego 2: Adivina la Palabra</h1>
-    
+<div class="container mt-5 goblin-theme">
+    <div class="text-center mb-4">
+        <span class="spider-badge">🕷 Sala 2</span>
+        <h1 class="mt-3 mb-2">Minijuego 2: El acertijo del Duende Verde</h1>
+        <p class="text-white-50 mb-0">Adivina la palabra secreta antes de que se agoten tus intentos y la guarida se cierre.</p>
+    </div>
+
     <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="col-lg-7">
+            <div class="card p-4 spider-card">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
                     <div class="text-center mb-0 flex-grow-1">
                         <p class="mb-2">Intentos restantes: <span id="intentosRestantes" class="fw-bold">6</span></p>
                     </div>
                     <form asp-action="PedirPista" method="post">
-                        <button type="submit" class="btn btn-outline-info btn-sm">
+                        <button type="submit" class="btn btn-outline-info btn-sm spider-btn">
                                     @if(pistasUsadas < 3)
                                     {
                                         <span>💡 Pedir Pista (@(3 - pistasUsadas) restantes)</span>
@@ -70,7 +74,6 @@
 
                 <div id="mensaje" class="alert d-none mb-3" role="alert"></div>
 
-                <!-- Cuadrícula de intentos 6x5 -->
                 <div class="cuadricula mb-4">
                     <div class="fila">
                         <div class="celda"></div>
@@ -118,11 +121,10 @@
 
                 <div class="text-center mb-4">
                     <p class="mb-2">Palabra actual: <span id="palabraActual" class="fw-bold">_ _ _ _ _</span></p>
-                    <button id="borrar" class="btn btn-sm btn-secondary me-2">← Borrar</button>
-                    <button id="confirmar" class="btn btn-sm btn-success">Confirmar</button>
+                    <button id="borrar" class="btn btn-sm btn-secondary me-2 spider-btn">← Borrar</button>
+                    <button id="confirmar" class="btn btn-sm btn-success spider-btn">Confirmar</button>
                 </div>
 
-                <!-- Teclado en pantalla -->
                 <div class="teclado">
                     <div class="fila-teclado">
                         <button class="tecla" data-letra="Q">Q</button>
@@ -158,17 +160,16 @@
                     </div>
                 </div>
 
-                <!-- Resultado final -->
-                <div class="text-center">
-                    <button type="button" id="reiniciar" class="btn btn-warning">Reiniciar</button>
+                <div class="text-center mt-4">
+                    <button type="button" id="reiniciar" class="btn btn-warning spider-btn">Reiniciar</button>
                 </div>
-                
+
                 <div id="codigoDiv" class="alert alert-success d-none mt-4">
                     <h5>¡Felicidades!</h5>
-                    <p>Has completado la secuencia correctamente.</p>
+                    <p>Has completado el acertijo correctamente.</p>
                     <form action="@Url.Action("VerificarMinijuego", "Home")" method="post">
                         <input type="hidden" name="codigo" id="codigoInput" value="">
-                        <button type="submit" class="btn btn-primary mt-3">Siguiente Minijuego</button>
+                        <button type="submit" class="btn btn-primary mt-3 spider-btn">Siguiente Minijuego</button>
                     </form>
                 </div>
 
@@ -176,7 +177,7 @@
                     <h5>¡Perdiste!</h5>
                     <p>No pudiste adivinar la palabra en 6 intentos.</p>
                     <p class="mb-0">La palabra era: <span id="palabraSecreta" class="fw-bold"></span></p>
-                    <button id="reiniciar" class="btn btn-warning mt-3">Reintentar</button>
+                    <button id="reiniciar" class="btn btn-warning mt-3 spider-btn">Reintentar</button>
                 </div>
 
                 <div id="datosMinijuego2" data-palabra="@palabraSecreta" data-codigo="@ViewBag.CodigoMinijuego" class="d-none"></div>

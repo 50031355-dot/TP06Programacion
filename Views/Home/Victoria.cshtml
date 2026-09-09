@@ -2,13 +2,13 @@
     ViewData["Title"] = "¡Ganaste!";
 }
 
-<div class="container mt-5 text-center">
-    <div class="alert alert-success p-5 shadow-sm">
-        <h1 class="display-4 mb-3">¡Ganaste!</h1>
-        <p class="lead mb-4">Encontraste a Venom y completaste el último minijuego.</p>
-                    <form action="@Url.Action("VerificarMinijuego", "Home")" method="post">
-                        <input type="hidden" name="codigo" id="codigoInput" value="1">
-                        <button type="submit" class="btn btn-primary mt-3">Volver al inicio</button>
-                    </form>
-    </div>
-</div>
+<section class="spider-victory spider-card text-center mt-4 py-5 px-4">
+    <span class="spider-badge">🏆 Victoria</span>
+    <h1 class="spider-section-title display-5 mt-3">¡Lo lograste!</h1>
+    <p class="lead mt-3 mb-4 text-white-50">Encontraste a Venom y completaste la misión final del multiverso arácnido.</p>
+
+    <form action="@Url.Action("VerificarMinijuego", "Home")" method="post" class="d-inline-block">
+        <input type="hidden" name="codigo" id="codigoInput" value="1">
+        <button type="submit" class="btn btn-primary btn-lg spider-btn px-4 py-3">Volver al inicio</button>
+    </form>
+</section>

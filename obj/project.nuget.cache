@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "AdG54ytvGLo=",
+  "dgSpecHash": "mYncd5kzuaE=",
   "success": true,
-  "projectFilePath": "C:\\Users\\50031355\\TP06Programacion\\tp06.csproj",
+  "projectFilePath": "C:\\Users\\50031355\\Downloads\\TP06Programacion-main-diseño\\TP06Programacion-main\\tp06.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\50031355\\.nuget\\packages\\dapper\\2.1.79\\dapper.2.1.79.nupkg.sha512",
     "C:\\Users\\50031355\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\2.3.10\\microsoft.aspnetcore.cryptography.internal.2.3.10.nupkg.sha512",

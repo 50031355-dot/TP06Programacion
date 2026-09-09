@@ -26,21 +26,25 @@
     }
 }
 
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Minijuego 1: Conecta la Secuencia</h1>
-    
+<div class="container mt-5 ock-theme">
+    <div class="text-center mb-4">
+        <span class="spider-badge">⚡ Sala 1</span>
+        <h1 class="mt-3 mb-2">Minijuego 1: La carga de Electro</h1>
+        <p class="text-white-50 mb-0">Activa la secuencia correcta para descargar la energía y abrir el paso.</p>
+    </div>
+
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <p class="text-center mb-0 fs-5 flex-grow-1">Presiona los botones en el orden correcto:<br> 
+        <div class="col-lg-9">
+            <div class="card p-4 spider-card">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
+                    <p class="text-center mb-0 fs-5 flex-grow-1">La descarga de Electro bloquea la salida. Para desactivarla, presiona los botones en el orden correcto:<br>
                     <strong> ¿Cuántos Peter Parker hay en la trilogía original de Spider-Man?<br>
- → ¿Cuántos Spider-Man aparecen juntos en No Way Home?<br>
- → ¿Cuántos Spider-Man principales aparecen en Across the Spider-Verse?<br>
- → ¿Cuántos Spider-Man protagonizan Spider-Man: Into the Spider-Verse? <br>
- → ¿Cuántas películas de Spider-Man protagonizadas por Tom Holland hay hasta No Way Home?<br></strong></p>
+                    → ¿Cuántos Spider-Man aparecen juntos en No Way Home?<br>
+                    → ¿Cuántos Spider-Man principales aparecen en Across the Spider-Verse?<br>
+                    → ¿Cuántos Spider-Man protagonizan Spider-Man: Into the Spider-Verse?<br>
+                    → ¿Cuántas películas de Spider-Man protagonizadas por Tom Holland hay hasta No Way Home?<br></strong></p>
                     <form asp-action="PedirPista" method="post">
-                        <button type="submit" class="btn btn-outline-info btn-sm">
+                        <button type="submit" class="btn btn-outline-info btn-sm spider-btn">
                             @if(pistasUsadas < 3)
                             {
                                 <span>💡 Pedir Pista (@(3 - pistasUsadas) restantes)</span>
@@ -63,9 +67,9 @@
                         <strong>Pista @numeroPista:</strong> @pista
                     </div>
                 }
-                
+
                 <div id="mensaje" class="alert d-none mb-3" role="alert"></div>
-                
+
                 <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
                     <button type="button" class="boton" data-numero="1">1</button>
                     <button type="button" class="boton" data-numero="2">2</button>
@@ -73,24 +77,24 @@
                     <button type="button" class="boton" data-numero="4">4</button>
                     <button type="button" class="boton" data-numero="5">5</button>
                 </div>
-                
+
                 <div class="mb-4">
                     <p class="text-center">Tu secuencia: <span id="miSecuencia" class="fw-bold">-</span></p>
                     <div class="progress">
                         <div id="progreso" class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%"></div>
                     </div>
                 </div>
-                
+
                 <div class="text-center">
-                    <button type="button" id="reiniciar" class="btn btn-warning">Reiniciar</button>
+                    <button type="button" id="reiniciar" class="btn btn-warning spider-btn">Reiniciar</button>
                 </div>
-                
+
                 <div id="codigoDiv" class="alert alert-success d-none mt-4">
                     <h5>¡Felicidades!</h5>
                     <p>Has completado la secuencia correctamente.</p>
                     <form action="@Url.Action("VerificarMinijuego", "Home")" method="post">
                         <input type="hidden" name="codigo" id="codigoInput" value="">
-                        <button type="submit" class="btn btn-primary mt-3">Siguiente Minijuego</button>
+                        <button type="submit" class="btn btn-primary mt-3 spider-btn">Siguiente Minijuego</button>
                     </form>
                 </div>
             </div>

@@ -2,33 +2,34 @@
     ViewData["Title"] = "Iniciar Sesión";
 }
 
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card shadow" style="width: 100%; max-width: 400px;">
-        <div class="card-body p-5">
-            <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
-
-            @if (ViewBag.Error != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @ViewBag.Error
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
-
-            <form method="post" action="/Home/Login">
-                <div class="mb-3">
-                    <label for="mail" class="form-label">Email:</label>
-                    <input type="email" class="form-control" id="mail" name="mail" required placeholder="tu@email.com">
-                </div>
-
-                
-                <button type="submit" class="btn btn-primary w-100 mb-3">Iniciar Sesión</button>
-            </form>
-
-            <div class="text-center">
-                <p class="mb-0">¿No tienes cuenta? <a href="#">Registrarse</a></p>
-            </div>
+<div class="spider-auth-shell py-4">
+    <div class="spider-auth">
+        <div class="text-center mb-4">
+            <span class="spider-badge">🕷 Acceso seguro</span>
+            <h1 class="spider-section-title mt-3 mb-2">Ingresa al portal arácnido</h1>
+            <p class="mb-0 text-white-50">Usa tu correo para continuar la misión y abrir las salas del Escape Room.</p>
         </div>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @ViewBag.Error
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post" action="/Home/Login" class="spider-card">
+            <div class="mb-4">
+                <label for="mail" class="form-label fw-bold">Email</label>
+                <input type="email" class="form-control form-control-lg" id="mail" name="mail" required placeholder="tu@email.com">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100 spider-btn">Iniciar sesión</button>
+
+            <div class="text-center mt-3">
+                <p class="mb-0 text-white-50">Activa tu sentido arácnido y continúa la aventura.</p>
+            </div>
+        </form>
     </div>
 </div>
 
