@@ -22,7 +22,7 @@ public class BD
     {
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
-            string query = "UPDATE Partidas SET salaActual = salaActual+1 WHERE ID = @idUsuario";
+            string query = "UPDATE Partidas SET salaActual = salaActual+1 WHERE ID IN (SELECT idPartida FROM Usuarios WHERE ID = @idUsuario)";
             connection.Execute(query, new { idUsuario });
         }
     }
@@ -67,6 +67,17 @@ public class BD
             return connection.QuerySingleOrDefault<int>(query, new { idPartida });
         }
     }
+
+    // Obtener sala actual de la partida del usuario con el id de la partida
+    public int ObtenerSalaActual(int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "SELECT salaActual FROM Partidas INNER JOIN Usuarios ON Partidas.ID = Usuarios.idPartida WHERE Usuarios.ID = @idUsuario";
+            return connection.QuerySingleOrDefault<int>(query, new { idUsuario });
+        }
+    }
+
 
     // Obtener usuario por email. El método debe primero buscar si existe el usuario con ese mail (query con dapper que devuelve un int): //si existe, buscar el usuario con ese mail y devolverlo, si no existe, devolver null. El método debe ser público.
     public Usuarios ObtenerUsuarioPorEmail(string email)

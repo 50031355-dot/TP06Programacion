@@ -66,17 +66,15 @@ public class HomeController : Controller
 
         switch (salaActual)
         {
-            case 0:
             case 1:
-            case 2:
                 return RedirectToAction("Tutorial");
-            case 3:
+            case 2:
                 return RedirectToAction("Minijuego1");
-            case 4:
+            case 3:
                 return RedirectToAction("Minijuego2");
-            case 5:
+            case 4:
                 return RedirectToAction("Minijuego3");
-            case 6:
+            case 5:
                 return RedirectToAction("Minijuego4");
             default:
                 return RedirectToAction("Victoria");
@@ -111,20 +109,18 @@ public class HomeController : Controller
         
         switch (salaActual)
         {
-            case 0:
             case 1:
+                return RedirectToAction("Tutorial");
             case 2:
-                return View("Tutorial");
+                return RedirectToAction("Minijuego1");
             case 3:
-                return View("Minijuego1");
+                return RedirectToAction("Minijuego2");
             case 4:
-                return View("Minijuego2");
+                return RedirectToAction("Minijuego3");
             case 5:
-                return View("Minijuego3");
-            case 6:
-                return View("Minijuego4");
+                return RedirectToAction("Minijuego4");
             default:
-                return View("Index");
+                return RedirectToAction("Victoria");
         }
     }
 
@@ -137,16 +133,15 @@ public class HomeController : Controller
             codigoIngresado = int.Parse(codigo);
         }
         Console.WriteLine($"Código ingresado: {codigoIngresado}");
-        int idSala = ObtenerSesionInt("SalaActual");
-        int respuesta = BD.ObtenerRespuestaSala(idSala);
-        int salaActual = idSala;
+        int salaActual = BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+        int respuesta = BD.ObtenerRespuestaSala(salaActual);
         Console.WriteLine($"Código ingresado: {codigoIngresado}, Respuesta correcta: {respuesta}, Sala actual: {salaActual}");
         if (codigoIngresado == respuesta)
         {
-            int idPartida = ObtenerSesionInt("UsuarioPartida");
-            BD.ActualizarSalaActual(idPartida);
+            int idPartida = BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+
             Console.WriteLine("Sala actualizada correctamente.");
-            int nuevaSala = idSala + 1;
+            int nuevaSala = idPartida + 1;
             HttpContext.Session.SetString("SalaActual", nuevaSala.ToString());
             
             // Reiniciar el contador de pistas para la nueva sala
@@ -155,11 +150,15 @@ public class HomeController : Controller
 
             switch (nuevaSala)
             {
-                case 4:
+                case 1:
+                    return RedirectToAction("Tutorial");
+                case 2:
+                    return RedirectToAction("Minijuego1");
+                case 3:
                     return RedirectToAction("Minijuego2");
-                case 5:
+                case 4:
                     return RedirectToAction("Minijuego3");
-                case 6:
+                case 5:
                     return RedirectToAction("Minijuego4");
                 default:
                     return RedirectToAction("Victoria");
@@ -170,20 +169,18 @@ public class HomeController : Controller
             ViewBag.Error = "Código incorrecto. Intenta nuevamente.";
             switch (salaActual)
             {
-                case 0:
                 case 1:
-                case 2:
                     return RedirectToAction("Tutorial");
-                case 3:
+                case 2:
                     return RedirectToAction("Minijuego1");
-                case 4:
+                case 3:
                     return RedirectToAction("Minijuego2");
-                case 5:
+                case 4:
                     return RedirectToAction("Minijuego3");
-                case 6:
+                case 5:
                     return RedirectToAction("Minijuego4");
                 default:
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Victoria");
             }
         }
     }
@@ -195,8 +192,10 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
-
-        int salaActual = ObtenerSesionInt("SalaActual");
+        BD.ActualizarSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+        //Obtener SalaActual después de actualizarla
+        int salaActual = BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+        Console.WriteLine($"Sala actual: {salaActual}");
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
@@ -208,6 +207,8 @@ public class HomeController : Controller
         {
             return RedirectToAction("Login");
         }
+        BD.ActualizarSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+        Console.WriteLine($"Sala actual: {BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")))}");
 
         int salaActual = ObtenerSesionInt("SalaActual");
 
@@ -227,10 +228,16 @@ public class HomeController : Controller
             return RedirectToAction("Login");
         }
 
+        BD.ActualizarSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+        Console.WriteLine($"Sala actual: {BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")))}");
+
         int salaActual = ObtenerSesionInt("SalaActual");
 
-        ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
+
+        string palabraSecreta = PalabrasSpiderman[new Random().Next(PalabrasSpiderman.Length)];
+        ViewBag.PalabraSecreta = palabraSecreta;
         ViewBag.CodigoMinijuego = BD.ObtenerRespuestaSala(salaActual);
+        ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         return View();
     }
 
@@ -248,7 +255,6 @@ public class HomeController : Controller
         ViewBag.CodigoMinijuego = BD.ObtenerRespuestaSala(salaActual);
         return View();
     }
-
     public IActionResult Tutorial()
     {
         return View();
