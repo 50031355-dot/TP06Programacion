@@ -76,6 +76,8 @@ public class HomeController : Controller
                 return RedirectToAction("Minijuego2");
             case 5:
                 return RedirectToAction("Minijuego3");
+            case 6:
+                return RedirectToAction("Minijuego4");
             default:
                 return RedirectToAction("Victoria");
         }
@@ -119,6 +121,8 @@ public class HomeController : Controller
                 return View("Minijuego2");
             case 5:
                 return View("Minijuego3");
+            case 6:
+                return View("Minijuego4");
             default:
                 return View("Index");
         }
@@ -155,6 +159,8 @@ public class HomeController : Controller
                     return RedirectToAction("Minijuego2");
                 case 5:
                     return RedirectToAction("Minijuego3");
+                case 6:
+                    return RedirectToAction("Minijuego4");
                 default:
                     return RedirectToAction("Victoria");
             }
@@ -174,6 +180,8 @@ public class HomeController : Controller
                     return RedirectToAction("Minijuego2");
                 case 5:
                     return RedirectToAction("Minijuego3");
+                case 6:
+                    return RedirectToAction("Minijuego4");
                 default:
                     return RedirectToAction("Index");
             }
@@ -220,24 +228,24 @@ public class HomeController : Controller
         }
 
         int salaActual = ObtenerSesionInt("SalaActual");
-        
-        switch (salaActual)
-        {
-            case 0:
-            case 1:
-            case 2:
-                return RedirectToAction("Tutorial");
-            case 3:
-                return RedirectToAction("Minijuego1");
-            case 4:
-                return RedirectToAction("Minijuego2");
-            case 5:
-                break;
-            default:
-                return RedirectToAction("Index");
-        }
 
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
+        ViewBag.CodigoMinijuego = BD.ObtenerRespuestaSala(salaActual);
+        return View();
+    }
+
+    public IActionResult Minijuego4()
+    {
+        string emailSession = HttpContext.Session.GetString("UsuarioEmail");
+        if (string.IsNullOrEmpty(emailSession))
+        {
+            return RedirectToAction("Login");
+        }
+
+        int salaActual = ObtenerSesionInt("SalaActual");
+
+        ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
+        ViewBag.CodigoMinijuego = BD.ObtenerRespuestaSala(salaActual);
         return View();
     }
 

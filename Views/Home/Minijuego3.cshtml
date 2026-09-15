@@ -1,5 +1,10 @@
 @{
     ViewData["Title"] = "Minijuego 3";
+    int codigoMinijuego = 0;
+    if (ViewBag.CodigoMinijuego != null)
+    {
+        codigoMinijuego = (int)ViewBag.CodigoMinijuego;
+    }
 }
 
 <div class="container mt-4 venom-theme">
@@ -10,6 +15,9 @@
     </div>
     <div class="venom-scene">
         <img src="~/img/foto venom.jpg" alt="Venom" class="venom-image" />
-        <a asp-action="Victoria" asp-controller="Home" class="venom-button" aria-label="Encontrar a Venom">VENOM</a>
+        <form asp-action="VerificarMinijuego" asp-controller="Home" method="post">
+            <input type="hidden" name="codigo" value="@codigoMinijuego" />
+            <button type="submit" class="venom-button" aria-label="Encontrar a Venom">VENOM</button>
+        </form>
     </div>
 </div>
