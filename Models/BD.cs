@@ -17,6 +17,26 @@ public class BD
         }
     }
 
+
+    //Funcion que recibe un mail y crea un usuario(solo pone el mail) y crea una partida nueva (pone salaActual=1 y tiempo =date actual) y los relaciona
+    //Hace que devuelva el nuevo usuario creado (con el idPartida que le corresponde)
+    public Usuarios CrearUsuarioYPartida(string mail)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            // Crear partida nueva
+            string queryPartida = @"INSERT INTO Partidas (nombre, salaActual, tiempo, progreso)
+                                    OUTPUT INSERTED.ID
+                                    VALUES (@nombre, 1, GETDATE(), @progreso)";
+            int idPartida = connection.QuerySingle<int>(queryPartida, new { nombre = mail, progreso = "" });
+
+            // Crear usuario y relacionarlo con la partida
+            string queryUsuario = "INSERT INTO Usuarios (mail, nombre, idPartida) VALUES (@mail, @nombre, @idPartida)";
+            connection.Execute(queryUsuario, new { mail, nombre = mail, idPartida });
+        }
+        return AutenticarUsuario(mail);
+    }
+    
     //Actualiza la sala actual de la partida del usuario
     public void ActualizarSalaActual(int idUsuario)
     {
@@ -26,7 +46,15 @@ public class BD
             connection.Execute(query, new { idUsuario });
         }
     }
-
+    //Reinicia SalaActual=1 de la partida del usuario
+    public void ReiniciarSalaActual(int idUsuario)
+    {
+        using (SqlConnection connection = new SqlConnection(_connectionString))
+        {
+            string query = "UPDATE Partidas SET salaActual = 1 WHERE ID IN (SELECT idPartida FROM Usuarios WHERE ID = @idUsuario)";
+            connection.Execute(query, new { idUsuario });
+        }
+    }
     //Una función que devuelve la respuesta correcta para una sala específica
     public int ObtenerRespuestaSala(int idSala)
     {
@@ -85,16 +113,7 @@ public class BD
         using (SqlConnection connection = new SqlConnection(_connectionString))
         {
             string query = "SELECT ID, mail, nombre,idPartida FROM Usuarios WHERE mail = @email";
-            int count = connection.QuerySingleOrDefault<int>(query, new { email });
-            if (count != 0)
-            {
-                Usuarios u= connection.QuerySingleOrDefault<Usuarios>(query, new { email });
-                return u;
-            }
-            else
-            {
-                return null;
-            }
+            return connection.QuerySingleOrDefault<Usuarios>(query, new { email });
         }
     }
 }

@@ -1,11 +1,21 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Integrantes";
 }
 <section class="spider-card mt-4">
-    <span class="spider-badge">🛡 Privacidad</span>
-    <h1 class="spider-section-title mt-3">Política de privacidad</h1>
+    <span class="spider-badge">🛡 Integrantes</span>
+    <h1 class="spider-section-title mt-3">Integrantes</h1>
     <p class="text-white-50 mb-0">
-        Esta página puede usarse para detallar la política de privacidad del sitio.
-        Puedes adaptar este texto cuando quieras añadir información legal real.
+        esta es la sección de integrantes del grupo, donde se muestran los nombres de los miembros que participaron en el proyecto.
     </p>
+        <div id="memoryBoard" class="memory-board mb-4">
+                    <button class="memory-card" data-symbol="rocco" type="button">
+                        <span class="card-front">Rocco Diaz</span>
+                        <span class="card-back"><img src="/img/carnage.png" alt="Carta 1" /></span>
+                    </button>
+                    <button class="memory-card" data-symbol="jere" type="button">
+                        <span class="card-front">Jeremias Szuchet</span>
+                        <span class="card-back"><img src="/img/carnage.png" alt="Carta 2" /></span>
+                    </button>
+        </div>
+        <script src="~/js/minijuegos.js" asp-append-version="true"></script>
 </section>

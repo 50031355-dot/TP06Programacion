@@ -44,35 +44,10 @@
             <div class="card p-4 spider-card">
                 <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
                     <p class="mb-0 fs-5 flex-grow-1 text-center">Poné en juego tu memoria y descubre todas las parejas.</p>
-                    <form asp-action="PedirPista" method="post">
-                        <button type="submit" class="btn btn-outline-info btn-sm spider-btn">
-                            @if (pistasUsadas < 3)
-                            {
-                                <span>💡 Pedir Pista (@(3 - pistasUsadas) restantes)</span>
-                            }
-                            else
-                            {
-                                <span>💡 No quedan pistas</span>
-                            }
-                        </button>
-                    </form>
                 </div>
-
-                @if (!string.IsNullOrEmpty(errorPista))
-                {
-                    <div class="alert alert-warning mb-3" role="alert">@ViewBag.ErrorPista</div>
-                }
-
-                @if (!string.IsNullOrEmpty(pista))
-                {
-                    <div class="alert alert-info mb-3" role="alert">
-                        <strong>Pista @numeroPista:</strong> @pista
-                    </div>
-                }
-
                 <div id="mensaje" class="alert d-none mb-3" role="alert"></div>
 
-                <div id="memoryBoard" class="memory-board mb-4">
+                <div id="memoryBoard" class="memory-board mb-4" data-codigo="@codigoMinijuego">
                     <button class="memory-card" data-symbol="carnage" type="button">
                         <span class="card-front">?</span>
                         <span class="card-back"><img src="/img/carnage.png" alt="Carta 1" /></span>
@@ -116,7 +91,7 @@
                     <p>Encontraste todas las parejas.</p>
                     <form action="@Url.Action("VerificarMinijuego", "Home")" method="post">
                         <input type="hidden" name="codigo" id="codigoInput" value="">
-                        <button type="submit" class="btn btn-primary mt-3 spider-btn">Siguiente Minijuego</button>
+                        <button type="submit" class="btn btn-primary mt-3 spider-btn">Completar</button>
                     </form>
                 </div>
             </div>
@@ -124,4 +99,4 @@
     </div>
 </div>
 
-<script src="~/js/minijuegos.js"></script>
+<script src="~/js/minijuegos.js" asp-append-version="true"></script>

@@ -236,3 +236,119 @@ document.addEventListener('DOMContentLoaded', function () {
         actualizarPalabraActual();
     })();
 });
+// --- Minijuego 4: Memoria ---
+    (function () {
+        const cards = Array.from(document.querySelectorAll('.memory-card'));
+        const memoryBoard = document.getElementById('memoryBoard');
+        const mensaje = document.getElementById('mensaje');
+        const codigoDiv = document.getElementById('codigoDiv');
+        const codigoInput = document.getElementById('codigoInput');
+        const reiniciarBtn = document.getElementById('reiniciarMemoria');
+        const codigoMinijuego = memoryBoard?.dataset.codigo || '3025';
+
+        if (!cards.length || !memoryBoard) return;
+
+        let flippedCards = [];
+        let lockBoard = false;
+        let matchedPairs = 0;
+
+        function mezclar(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function mostrarMensaje(text, type = 'info') {
+            if (!mensaje) return;
+            mensaje.className = 'alert mb-3';
+            mensaje.classList.add(type === 'error' ? 'alert-danger' : (type === 'success' ? 'alert-success' : 'alert-info'));
+            mensaje.textContent = text;
+            mensaje.classList.remove('d-none');
+        }
+
+        function ocultarMensaje() {
+            if (mensaje) mensaje.classList.add('d-none');
+        }
+
+        function resetBoard() {
+            const shuffledCards = mezclar([...cards]);
+            memoryBoard.innerHTML = '';
+            shuffledCards.forEach(card => memoryBoard.appendChild(card));
+
+            cards.forEach(card => {
+                card.classList.remove('is-flipped', 'is-matched');
+                card.disabled = false;
+            });
+
+            flippedCards = [];
+            matchedPairs = 0;
+            lockBoard = false;
+            ocultarMensaje();
+            if (codigoDiv) codigoDiv.classList.add('d-none');
+            if (codigoInput) codigoInput.value = '';
+        }
+
+        function ganarJuego() {
+            if (codigoDiv) {
+                codigoDiv.classList.remove('d-none');
+                if (codigoInput) codigoInput.value = String(codigoMinijuego);
+            }
+            mostrarMensaje('¡Perfecto! Encontraste todas las parejas.', 'success');
+        }
+
+        function evaluarPareja() {
+            const [first, second] = flippedCards;
+
+            if (first.dataset.symbol === second.dataset.symbol) {
+                first.classList.add('is-matched');
+                second.classList.add('is-matched');
+                first.disabled = true;
+                second.disabled = true;
+                matchedPairs++;
+
+                if (matchedPairs === cards.length / 2) {
+                    ganarJuego();
+                }
+
+                flippedCards = [];
+                lockBoard = false;
+                return;
+            }
+
+            mostrarMensaje('No coinciden. Intenta otra vez.', 'error');
+            lockBoard = true;
+
+            setTimeout(() => {
+                first.classList.remove('is-flipped');
+                second.classList.remove('is-flipped');
+                flippedCards = [];
+                lockBoard = false;
+                ocultarMensaje();
+            }, 800);
+        }
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                if (lockBoard || card.classList.contains('is-flipped') || card.classList.contains('is-matched')) return;
+
+                card.classList.add('is-flipped');
+                flippedCards.push(card);
+
+                if (flippedCards.length === 2) {
+                    evaluarPareja();
+                }
+            });
+        });
+
+        if (reiniciarBtn) {
+            reiniciarBtn.addEventListener('click', () => resetBoard());
+        }
+
+        resetBoard();
+    })();
+
+function darVuelta(carta) {
+    carta.classList.toggle('volteada');
+}

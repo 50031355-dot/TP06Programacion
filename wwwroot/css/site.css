@@ -1049,3 +1049,85 @@ body.spider-body::before {
     top: calc(50% - 34px);
   }
 }
+
+/* =========================================================
+   TEMA MINIJUEGO 4: MEMORIA
+   Colores: rojo oscuro y dorado para las cartas
+   ========================================================= */
+
+.spider-theme {
+  background: linear-gradient(135deg, rgba(7, 11, 24, 0.88), rgba(13, 23, 53, 0.88));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  padding: 2rem 1.25rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32);
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(80px, 1fr));
+  gap: 1rem;
+}
+
+.memory-card {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  perspective: 1000px;
+  border-radius: 16px;
+  font-size: 2rem;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+
+.memory-card .card-front,
+.memory-card .card-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.35s ease;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.memory-card .card-front {
+  background: linear-gradient(135deg, #5f0f4e, #0d1b2a);
+  color: #fff;
+  font-weight: bold;
+}
+
+.memory-card .card-back {
+  background: linear-gradient(135deg, #f7d774, #f5a623);
+  transform: rotateY(180deg);
+}
+
+.memory-card.is-flipped .card-front,
+.memory-card.is-matched .card-front {
+  transform: rotateY(180deg);
+}
+
+.memory-card.is-flipped .card-back,
+.memory-card.is-matched .card-back {
+  transform: rotateY(360deg);
+}
+
+.memory-card.is-matched {
+  cursor: default;
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.4);
+}
+
+.memory-card .card-back img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  display: block;
+}

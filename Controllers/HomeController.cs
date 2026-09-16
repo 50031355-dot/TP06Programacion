@@ -124,6 +124,14 @@ public class HomeController : Controller
         }
     }
 
+    //Función que redirige al inicio (Tutorial.cshtml) y salaActual lo vuelve a hacer=1
+    public IActionResult ReiniciarJuego()
+    {
+        BD.ReiniciarSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
+        HttpContext.Session.SetString("SalaActual", "1");
+        return RedirectToAction("Tutorial");
+    }
+
     [HttpPost]
     public IActionResult VerificarMinijuego(string codigo)
     {
@@ -249,8 +257,12 @@ public class HomeController : Controller
             return RedirectToAction("Login");
         }
 
-        int salaActual = ObtenerSesionInt("SalaActual");
+        BD.ActualizarSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")));
 
+        int salaActual = ObtenerSesionInt("SalaActual");
+        HttpContext.Session.SetString("SalaActual", BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID"))).ToString());
+        salaActual = ObtenerSesionInt("SalaActual");
+        Console.WriteLine($"Sala actual: {BD.ObtenerSalaActual(int.Parse(HttpContext.Session.GetString("UsuarioID")))}");
         ViewBag.PistasUsadas = ObtenerPistasUsadas(salaActual);
         ViewBag.CodigoMinijuego = BD.ObtenerRespuestaSala(salaActual);
         return View();
@@ -273,8 +285,12 @@ public class HomeController : Controller
             ViewBag.Error = "Por favor completa todos los campos";
             return View();
         }
-
+        //Hace que si el usuario existe ya de antes haga login como siempre, pero si no existe que llame a la funcion nueva que cree el usuario y lo haga loguear
         Usuarios usuario = BD.AutenticarUsuario(mail);
+        if (usuario == null)
+        {
+            usuario = BD.CrearUsuarioYPartida(mail);
+        }
 
         if (usuario != null)
         {

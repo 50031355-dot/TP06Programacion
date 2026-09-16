@@ -43,30 +43,7 @@
                     → ¿Cuántos Spider-Man principales aparecen en Across the Spider-Verse?<br>
                     → ¿Cuántos Spider-Man protagonizan Spider-Man: Into the Spider-Verse?<br>
                     → ¿Cuántas películas de Spider-Man protagonizadas por Tom Holland hay hasta No Way Home?<br></strong></p>
-                    <form asp-action="PedirPista" method="post">
-                        <button type="submit" class="btn btn-outline-info btn-sm spider-btn">
-                            @if(pistasUsadas < 3)
-                            {
-                                <span>💡 Pedir Pista (@(3 - pistasUsadas) restantes)</span>
-                            }
-                            else
-                            {
-                                <span>💡 No quedan pistas</span>
-                            }
-                        </button>
-                    </form>
-                </div>
-                @if (!string.IsNullOrEmpty(errorPista))
-                {
-                    <div class="alert alert-warning mb-3" role="alert">@ViewBag.ErrorPista</div>
-                }
-
-                @if (!string.IsNullOrEmpty(pista))
-                {
-                    <div class="alert alert-info mb-3" role="alert">
-                        <strong>Pista @numeroPista:</strong> @pista
-                    </div>
-                }
+                    
 
                 <div id="mensaje" class="alert d-none mb-3" role="alert"></div>
 
